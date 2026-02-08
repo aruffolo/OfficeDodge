@@ -23,14 +23,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		213007142F127B7900756ABF /* ARNetworkLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 213007132F127B7900756ABF /* ARNetworkLibrary */; };
-		21920F312EC4A07B0008B108 /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = 21920F302EC4A07B0008B108 /* Pulse */; };
-		21920F332EC4A07B0008B108 /* PulseProxy in Frameworks */ = {isa = PBXBuildFile; productRef = 21920F322EC4A07B0008B108 /* PulseProxy */; };
-		21920F352EC4A07B0008B108 /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 21920F342EC4A07B0008B108 /* PulseUI */; };
 		219CF38D2ED7668C00B14148 /* OfficeDodge.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 219CF38C2ED7668C00B14148 /* OfficeDodge.xctestplan */; };
 		21A5025C2F17BA6B00E2EBBB /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 21A5025B2F17BA6B00E2EBBB /* AppFeature */; };
-		21E9398B2EAF94AB0099A9DF /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 21E9398A2EAF94AB0099A9DF /* CodeScanner */; };
-		21FF03652F0FCE42004C7EAD /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 21FF03642F0FCE42004C7EAD /* Sentry */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,12 +52,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				21A5025C2F17BA6B00E2EBBB /* AppFeature in Frameworks */,
-				21920F352EC4A07B0008B108 /* PulseUI in Frameworks */,
-				21920F332EC4A07B0008B108 /* PulseProxy in Frameworks */,
-				21920F312EC4A07B0008B108 /* Pulse in Frameworks */,
-				213007142F127B7900756ABF /* ARNetworkLibrary in Frameworks */,
-				21FF03652F0FCE42004C7EAD /* Sentry in Frameworks */,
-				21E9398B2EAF94AB0099A9DF /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,12 +107,6 @@
 			);
 			name = OfficeDodge;
 			packageProductDependencies = (
-				21E9398A2EAF94AB0099A9DF /* CodeScanner */,
-				21920F302EC4A07B0008B108 /* Pulse */,
-				21920F322EC4A07B0008B108 /* PulseProxy */,
-				21920F342EC4A07B0008B108 /* PulseUI */,
-				21FF03642F0FCE42004C7EAD /* Sentry */,
-				213007132F127B7900756ABF /* ARNetworkLibrary */,
 				21A5025B2F17BA6B00E2EBBB /* AppFeature */,
 			);
 			productName = OfficeDodge;
@@ -163,10 +145,6 @@
 			mainGroup = B3506E7C2DE32C4C00AAFC5D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				21E939892EAF94AB0099A9DF /* XCRemoteSwiftPackageReference "CodeScanner" */,
-				21920F2F2EC4A07B0008B108 /* XCRemoteSwiftPackageReference "Pulse" */,
-				21FF03632F0FCE42004C7EAD /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
-				213007122F127B7900756ABF /* XCRemoteSwiftPackageReference "ARNetworkLibrary" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B3506E862DE32C4C00AAFC5D /* Products */;
@@ -634,75 +612,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		213007122F127B7900756ABF /* XCRemoteSwiftPackageReference "ARNetworkLibrary" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:aruffolo/ARNetworkLibrary.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.1;
-			};
-		};
-		21920F2F2EC4A07B0008B108 /* XCRemoteSwiftPackageReference "Pulse" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kean/Pulse";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.4;
-			};
-		};
-		21E939892EAF94AB0099A9DF /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/twostraws/CodeScanner.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.5.2;
-			};
-		};
-		21FF03632F0FCE42004C7EAD /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		213007132F127B7900756ABF /* ARNetworkLibrary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 213007122F127B7900756ABF /* XCRemoteSwiftPackageReference "ARNetworkLibrary" */;
-			productName = ARNetworkLibrary;
-		};
-		21920F302EC4A07B0008B108 /* Pulse */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 21920F2F2EC4A07B0008B108 /* XCRemoteSwiftPackageReference "Pulse" */;
-			productName = Pulse;
-		};
-		21920F322EC4A07B0008B108 /* PulseProxy */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 21920F2F2EC4A07B0008B108 /* XCRemoteSwiftPackageReference "Pulse" */;
-			productName = PulseProxy;
-		};
-		21920F342EC4A07B0008B108 /* PulseUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 21920F2F2EC4A07B0008B108 /* XCRemoteSwiftPackageReference "Pulse" */;
-			productName = PulseUI;
-		};
 		21A5025B2F17BA6B00E2EBBB /* AppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppFeature;
-		};
-		21E9398A2EAF94AB0099A9DF /* CodeScanner */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 21E939892EAF94AB0099A9DF /* XCRemoteSwiftPackageReference "CodeScanner" */;
-			productName = CodeScanner;
-		};
-		21FF03642F0FCE42004C7EAD /* Sentry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 21FF03632F0FCE42004C7EAD /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
