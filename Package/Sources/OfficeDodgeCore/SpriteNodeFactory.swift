@@ -27,7 +27,8 @@ enum SpriteNodeFactory {
             tint: .systemYellow,
             size: size,
             nodeName: "player",
-            usesContrastPlate: false
+            usesContrastPlate: false,
+            cropInsets: AssetCropInsets(top: 0.10, left: 0.18, bottom: 0.06, right: 0.15)
         )
     }
 
@@ -44,7 +45,8 @@ enum SpriteNodeFactory {
             tint: .white,
             size: size,
             nodeName: "obstacle",
-            usesContrastPlate: false
+            usesContrastPlate: false,
+            cropInsets: cropInsets(for: assetName)
         )
     }
 
@@ -57,52 +59,37 @@ enum SpriteNodeFactory {
     }
 
     static func makeHUDLivesNode(size: CGFloat = 20) -> SKNode {
-        if let texture = textureFromSFSymbol(
-            named: "heart.fill",
-            tint: UIColor(red: 1, green: 0.36, blue: 0.36, alpha: 1),
-            pointSize: size + 2
-        ) {
-            let node = SKSpriteNode(texture: texture, size: CGSize(width: size, height: size))
-            node.name = "hud_lives_icon"
-            return node
-        }
-        let fallback = SKLabelNode(text: "♥︎")
-        fallback.name = "hud_lives_icon"
-        fallback.fontColor = UIColor(red: 1, green: 0.36, blue: 0.36, alpha: 1)
-        fallback.fontSize = size
-        fallback.verticalAlignmentMode = .center
-        fallback.horizontalAlignmentMode = .center
-        return fallback
+        let heart = SKLabelNode(text: "♥︎")
+        heart.name = "hud_lives_icon"
+        heart.fontName = "Menlo-Bold"
+        heart.fontColor = UIColor(red: 1, green: 0.26, blue: 0.26, alpha: 1)
+        heart.fontSize = size * 1.02
+        heart.verticalAlignmentMode = .center
+        heart.horizontalAlignmentMode = .center
+        return heart
     }
 
     static func makeHUDPauseNode(size: CGFloat = 20) -> SKNode {
-        if let texture = textureFromSFSymbol(
-            named: "pause.circle.fill",
-            tint: UIColor(red: 1, green: 0.92, blue: 0.35, alpha: 1),
-            pointSize: size + 2
-        ) {
-            let node = SKSpriteNode(texture: texture, size: CGSize(width: size, height: size))
-            node.name = "hud_pause_icon"
-            return node
-        }
-        let fallback = SKLabelNode(text: "II")
-        fallback.name = "hud_pause_icon"
-        fallback.fontColor = UIColor(red: 1, green: 0.92, blue: 0.35, alpha: 1)
-        fallback.fontSize = size * 0.9
-        fallback.verticalAlignmentMode = .center
-        fallback.horizontalAlignmentMode = .center
-        return fallback
+        let icon = SKLabelNode(text: "II")
+        icon.name = "hud_pause_icon"
+        icon.fontName = "Menlo-Bold"
+        icon.fontColor = UIColor(red: 1, green: 0.92, blue: 0.35, alpha: 1)
+        icon.fontSize = size * 0.95
+        icon.verticalAlignmentMode = .center
+        icon.horizontalAlignmentMode = .center
+        return icon
     }
 
     static func makeCoffeePowerUpNode(size: CGFloat = 30) -> SKNode {
-        makeSpriteNode(
+        return makeSpriteNode(
             assetName: GameAssetName.powerUpCoffee,
             fallbackSymbolName: "cup.and.saucer.fill",
             fallbackEmoji: "☕",
             tint: .systemBrown,
             size: size,
             nodeName: "powerup_coffee",
-            usesContrastPlate: false
+            usesContrastPlate: false,
+            cropInsets: AssetCropInsets(top: 0.05, left: 0.06, bottom: 0.10, right: 0.06)
         )
     }
 
@@ -113,10 +100,11 @@ enum SpriteNodeFactory {
         tint: SKColor,
         size: CGFloat,
         nodeName: String,
-        usesContrastPlate: Bool
+        usesContrastPlate: Bool,
+        cropInsets: AssetCropInsets?
     ) -> SKNode {
         if let texture = textureFromAsset(named: assetName) {
-            let sprite = SKSpriteNode(texture: texture, size: CGSize(width: size, height: size))
+            let sprite = makeSpriteFromAssetTexture(texture, size: size, cropInsets: cropInsets)
             return makeWrappedNode(
                 sprite: sprite,
                 size: size,
@@ -145,6 +133,23 @@ enum SpriteNodeFactory {
             nodeName: nodeName,
             usesContrastPlate: usesContrastPlate
         )
+    }
+
+    private static func makeSpriteFromAssetTexture(
+        _ texture: SKTexture,
+        size: CGFloat,
+        cropInsets: AssetCropInsets?
+    ) -> SKSpriteNode {
+        let sprite: SKSpriteNode
+        if let cropInsets {
+            let rect = cropInsets.clampedUnitRect
+            let croppedTexture = SKTexture(rect: rect, in: texture)
+            sprite = SKSpriteNode(texture: croppedTexture, size: CGSize(width: size, height: size))
+        } else {
+            sprite = SKSpriteNode(texture: texture, size: CGSize(width: size, height: size))
+        }
+        sprite.centerRect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        return sprite
     }
 
     private static func makeWrappedNode(
@@ -198,5 +203,41 @@ enum SpriteNodeFactory {
         #else
         return nil
         #endif
+    }
+
+    private static func cropInsets(for assetName: String) -> AssetCropInsets? {
+        switch assetName {
+        case GameAssetName.obstacleEmail:
+            return AssetCropInsets(top: 0.14, left: 0.05, bottom: 0.16, right: 0.02)
+        case GameAssetName.obstacleMeeting:
+            return AssetCropInsets(top: 0.01, left: 0.08, bottom: 0.03, right: 0.03)
+        case GameAssetName.obstacleBug:
+            return AssetCropInsets(top: 0.17, left: 0.16, bottom: 0.18, right: 0.16)
+        case GameAssetName.obstacleManager:
+            return AssetCropInsets(top: 0.08, left: 0.13, bottom: 0.05, right: 0.10)
+        case GameAssetName.obstacleJira:
+            return AssetCropInsets(top: 0.01, left: 0.00, bottom: 0.03, right: 0.00)
+        default:
+            return nil
+        }
+    }
+}
+
+private struct AssetCropInsets {
+    let top: CGFloat
+    let left: CGFloat
+    let bottom: CGFloat
+    let right: CGFloat
+
+    var clampedUnitRect: CGRect {
+        let safeLeft = min(max(left, 0), 0.49)
+        let safeRight = min(max(right, 0), 0.49)
+        let safeTop = min(max(top, 0), 0.49)
+        let safeBottom = min(max(bottom, 0), 0.49)
+        let width = max(0.02, 1 - safeLeft - safeRight)
+        let height = max(0.02, 1 - safeTop - safeBottom)
+        let x = min(max(safeLeft, 0), 1 - width)
+        let y = min(max(safeBottom, 0), 1 - height)
+        return CGRect(x: x, y: y, width: width, height: height)
     }
 }

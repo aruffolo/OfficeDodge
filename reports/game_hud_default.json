@@ -22,13 +22,13 @@
     "role" : "AXApplication",
     "children" : [
       {
-        "AXFrame" : "{{282, 139.99996948242188}, {94, 52.000030517578125}}",
+        "AXFrame" : "{{250, 77.999984741210938}, {94, 52.000015258789062}}",
         "AXUniqueId" : null,
         "frame" : {
-          "y" : 139.99996948242188,
-          "x" : 282,
+          "y" : 77.999984741210938,
+          "x" : 250,
           "width" : 94,
-          "height" : 52.000030517578125
+          "height" : 52.000015258789062
         },
         "role_description" : "button",
         "AXLabel" : "Pause",
@@ -46,16 +46,70 @@
 
         ],
         "subrole" : null,
-        "pid" : 85498
+        "pid" : 99047
       },
       {
-        "AXFrame" : "{{46.000003814697266, 167.99998474121094}, {100.99999618530273, 21}}",
+        "AXFrame" : "{{259, 93.000007629394531}, {69, 21.000007629394531}}",
         "AXUniqueId" : null,
         "frame" : {
-          "y" : 167.99998474121094,
-          "x" : 46.000003814697266,
-          "width" : 100.99999618530273,
-          "height" : 21
+          "y" : 93.000007629394531,
+          "x" : 259,
+          "width" : 69,
+          "height" : 21.000007629394531
+        },
+        "role_description" : "",
+        "AXLabel" : "PAUSE",
+        "content_required" : false,
+        "type" : "GenericElement",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXGenericElement",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 99047
+      },
+      {
+        "AXFrame" : "{{233.99998474121094, 95.999969482421875}, {23.000015258789062, 16}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 95.999969482421875,
+          "x" : 233.99998474121094,
+          "width" : 23.000015258789062,
+          "height" : 16
+        },
+        "role_description" : "",
+        "AXLabel" : "II",
+        "content_required" : false,
+        "type" : "GenericElement",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXGenericElement",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 99047
+      },
+      {
+        "AXFrame" : "{{47, 114.00001525878906}, {101, 20.999954223632812}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 114.00001525878906,
+          "x" : 47,
+          "width" : 101,
+          "height" : 20.999954223632812
         },
         "role_description" : "",
         "AXLabel" : "Lives: 1",
@@ -73,16 +127,43 @@
 
         ],
         "subrole" : null,
-        "pid" : 85498
+        "pid" : 99047
       },
       {
-        "AXFrame" : "{{16.000003814697266, 137.99998474121094}, {100.9999885559082, 19}}",
+        "AXFrame" : "{{20.000003814697266, 119.99999237060547}, {14.999992370605469, 14.999977111816406}}",
         "AXUniqueId" : null,
         "frame" : {
-          "y" : 137.99998474121094,
+          "y" : 119.99999237060547,
+          "x" : 20.000003814697266,
+          "width" : 14.999992370605469,
+          "height" : 14.999977111816406
+        },
+        "role_description" : "",
+        "AXLabel" : "♥︎",
+        "content_required" : false,
+        "type" : "GenericElement",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXGenericElement",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 99047
+      },
+      {
+        "AXFrame" : "{{16.000003814697266, 82.999992370605469}, {100.9999885559082, 19.000007629394531}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 82.999992370605469,
           "x" : 16.000003814697266,
           "width" : 100.9999885559082,
-          "height" : 19
+          "height" : 19.000007629394531
         },
         "role_description" : "",
         "AXLabel" : "Score: 0",
@@ -100,10 +181,10 @@
 
         ],
         "subrole" : null,
-        "pid" : 85498
+        "pid" : 99047
       }
     ],
     "subrole" : null,
-    "pid" : 85498
+    "pid" : 99047
   }
 ]

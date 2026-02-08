@@ -37,10 +37,10 @@ Axe: `reports/game_hud_default.json`
 - Accessibility basics: PASS
 
 Notes:
-- Fixed this run: moved HUD below safe area and removed duplicate top-left title overlay from gameplay container.
-- Fixed this run: added HUD backplates + explicit white HUD text to keep legibility over busy background.
-- Pause control now meets minimum touch size: `{55 x 44.2}` from axe frame.
-- SpriteKit accessibility limitation: axe inspects exposed accessibility elements, not every rendered sprite node.
+- Revalidated this run: gameplay background now uses aspect-fill composition (no stretch artifacts).
+- Revalidated this run: HUD now matches requested style cues (`II PAUSE`, stronger top plates, white text).
+- Pause control touch target (axe): `{94 x 52}`.
+- SpriteKit accessibility limitation remains: axe validates exposed accessibility elements, not every sprite node.
 
 ### Game Over — iPhone 16 — Default
 Screenshot: `screenshots/iPhone16/default/game_over.png`  

@@ -23,6 +23,7 @@ public final class GameScene: SKScene {
     private var coffeeStatusLabel = SKLabelNode(text: "")
     private var livesIconNode: SKNode?
     private var pauseIconNode: SKNode?
+    private var pauseTextNode = SKLabelNode(text: "PAUSE")
     private var pauseTouchTargetNode: SKSpriteNode?
     private let leftHUDPlate = SKShapeNode()
     private let rightHUDPlate = SKShapeNode()
@@ -67,8 +68,7 @@ public final class GameScene: SKScene {
 
     public override func didChangeSize(_ oldSize: CGSize) {
         super.didChangeSize(oldSize)
-        backgroundNode?.size = size
-        backgroundNode?.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        layoutBackgroundNode()
         updateSafeAreaInsets()
         layoutHUD()
     }
@@ -155,14 +155,14 @@ public final class GameScene: SKScene {
     }
 
     private func configureBackground() {
-        backgroundColor = .systemTeal
+        backgroundColor = .black
         guard let node = SpriteNodeFactory.makeBackgroundNode(sceneSize: size) else { return }
-        node.position = CGPoint(x: size.width / 2, y: size.height / 2)
         addChild(node)
         backgroundNode = node
+        layoutBackgroundNode()
 
         let dimNode = SKSpriteNode(color: .black, size: size)
-        dimNode.alpha = 0.40
+        dimNode.alpha = 0.10
         dimNode.zPosition = -50
         dimNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
         addChild(dimNode)
@@ -173,19 +173,22 @@ public final class GameScene: SKScene {
         player.removeFromParent()
         player = SpriteNodeFactory.makePlayerNode(size: GameplayTuning.playerSize)
         player.position = CGPoint(x: size.width / 2, y: GameplayTuning.playerBaselineY)
+        player.alpha = 1
         player.zPosition = 10
         addChild(player)
         playerTargetX = player.position.x
     }
 
     private func configureHUD() {
-        leftHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.58)
-        leftHUDPlate.strokeColor = .clear
+        leftHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.48)
+        leftHUDPlate.strokeColor = UIColor.white.withAlphaComponent(0.16)
+        leftHUDPlate.lineWidth = 1.2
         leftHUDPlate.zPosition = 18
         addChild(leftHUDPlate)
 
-        rightHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.58)
-        rightHUDPlate.strokeColor = .clear
+        rightHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.48)
+        rightHUDPlate.strokeColor = UIColor.white.withAlphaComponent(0.20)
+        rightHUDPlate.lineWidth = 1.2
         rightHUDPlate.zPosition = 18
         addChild(rightHUDPlate)
 
@@ -217,6 +220,15 @@ public final class GameScene: SKScene {
         #endif
         addChild(pauseIcon)
         pauseIconNode = pauseIcon
+
+        pauseTextNode.text = "PAUSE"
+        pauseTextNode.fontSize = 23
+        pauseTextNode.fontName = "Menlo-Bold"
+        pauseTextNode.fontColor = .white
+        pauseTextNode.horizontalAlignmentMode = .left
+        pauseTextNode.verticalAlignmentMode = .center
+        pauseTextNode.zPosition = 20
+        addChild(pauseTextNode)
 
         let pauseTouchTarget = SKSpriteNode(color: .clear, size: CGSize(width: 94, height: 52))
         pauseTouchTarget.zPosition = 19
@@ -327,12 +339,14 @@ public final class GameScene: SKScene {
         case .paused:
             pauseStateLabel.alpha = 1
             pauseIconNode?.alpha = 0.75
+            pauseTextNode.alpha = 0.8
             #if canImport(UIKit)
             pauseTouchTargetNode?.accessibilityLabel = "Resume"
             #endif
         default:
             pauseStateLabel.alpha = 0
             pauseIconNode?.alpha = 1
+            pauseTextNode.alpha = 1
             #if canImport(UIKit)
             pauseTouchTargetNode?.accessibilityLabel = "Pause"
             #endif
@@ -340,8 +354,28 @@ public final class GameScene: SKScene {
         layoutHUD()
     }
 
+    private func layoutBackgroundNode() {
+        guard let node = backgroundNode else { return }
+        guard let texture = node.texture else {
+            node.size = size
+            node.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            return
+        }
+
+        let textureSize = texture.size()
+        guard textureSize.width > 0, textureSize.height > 0 else {
+            node.size = size
+            node.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            return
+        }
+
+        let fillScale = max(size.width / textureSize.width, size.height / textureSize.height)
+        node.size = CGSize(width: textureSize.width * fillScale, height: textureSize.height * fillScale)
+        node.position = CGPoint(x: size.width / 2, y: size.height / 2)
+    }
+
     private func layoutHUD() {
-        let topInset = max(138, sceneSafeAreaInsets.top + 68)
+        let topInset = max(76, sceneSafeAreaInsets.top + 24)
         let leftInset = max(16, sceneSafeAreaInsets.left + 12)
         let rightInset = max(16, sceneSafeAreaInsets.right + 12)
 
@@ -349,27 +383,28 @@ public final class GameScene: SKScene {
         backgroundDimNode?.position = CGPoint(x: size.width / 2, y: size.height / 2)
 
         leftHUDPlate.path = CGPath(
-            roundedRect: CGRect(x: 0, y: 0, width: 196, height: 84),
-            cornerWidth: 14,
-            cornerHeight: 14,
+            roundedRect: CGRect(x: 0, y: 0, width: 194, height: 84),
+            cornerWidth: 15,
+            cornerHeight: 15,
             transform: nil
         )
-        leftHUDPlate.position = CGPoint(x: leftInset - 10, y: size.height - topInset - 58)
+        leftHUDPlate.position = CGPoint(x: leftInset - 10, y: size.height - topInset - 62)
 
         rightHUDPlate.path = CGPath(
-            roundedRect: CGRect(x: 0, y: 0, width: 116, height: 80),
-            cornerWidth: 14,
-            cornerHeight: 14,
+            roundedRect: CGRect(x: 0, y: 0, width: 160, height: 62),
+            cornerWidth: 15,
+            cornerHeight: 15,
             transform: nil
         )
-        rightHUDPlate.position = CGPoint(x: size.width - rightInset - 108, y: size.height - topInset - 54)
+        rightHUDPlate.position = CGPoint(x: size.width - rightInset - 156, y: size.height - topInset - 52)
 
         scoreLabel.position = CGPoint(x: leftInset, y: size.height - topInset)
-        livesIconNode?.position = CGPoint(x: leftInset + 12, y: size.height - (topInset + 46))
-        livesLabel.position = CGPoint(x: leftInset + 30, y: size.height - (topInset + 30))
-        coffeeStatusLabel.position = CGPoint(x: size.width / 2, y: size.height - topInset)
-        pauseTouchTargetNode?.position = CGPoint(x: size.width - rightInset - 48, y: size.height - topInset - 28)
-        pauseIconNode?.position = CGPoint(x: size.width - (rightInset + 48), y: size.height - (topInset + 22))
+        livesIconNode?.position = CGPoint(x: leftInset + 11, y: size.height - (topInset + 45))
+        livesLabel.position = CGPoint(x: leftInset + 31, y: size.height - (topInset + 31))
+        coffeeStatusLabel.position = CGPoint(x: size.width / 2, y: size.height - topInset - 94)
+        pauseTouchTargetNode?.position = CGPoint(x: size.width - rightInset - 80, y: size.height - topInset - 21)
+        pauseIconNode?.position = CGPoint(x: size.width - (rightInset + 132), y: size.height - (topInset + 21))
+        pauseTextNode.position = CGPoint(x: size.width - (rightInset + 118), y: size.height - (topInset + 21))
         pauseStateLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
     }
 
@@ -484,7 +519,7 @@ private enum GameplayTuning {
     static let coffeePowerUpSize: CGFloat = 34
     static let playerBaselineY: CGFloat = 78
     static let playerEdgePadding: CGFloat = 8
-    static let hudIconSize: CGFloat = 28
+    static let hudIconSize: CGFloat = 20
     static let hudProtectedHeight: CGFloat = 220
     static let playerTrackingResponsiveness: CGFloat = 18
     static let coffeeSpeedMultiplier: CGFloat = 1.6
