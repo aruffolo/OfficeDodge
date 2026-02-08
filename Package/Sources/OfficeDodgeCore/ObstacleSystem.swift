@@ -22,6 +22,7 @@ enum ObstacleSystem {
         in scene: SKScene,
         dt: TimeInterval,
         speedMultiplier: Double,
+        baseFallSpeed: CGFloat,
         playerX: CGFloat,
         sceneWidth: CGFloat,
         obstacleSize: CGFloat,
@@ -29,7 +30,7 @@ enum ObstacleSystem {
         hudProtectedHeight: CGFloat,
         obstacleTypeUserDataKey: String
     ) {
-        let speed = CGFloat(160 * speedMultiplier)
+        let speed = baseFallSpeed * CGFloat(speedMultiplier)
         let hudBoundaryY = scene.size.height - hudProtectedHeight
         scene.enumerateChildNodes(withName: "obstacle") { node, _ in
             if obstacleType(for: node, obstacleTypeUserDataKey: obstacleTypeUserDataKey) == .manager {

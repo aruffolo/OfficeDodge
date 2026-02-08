@@ -17,6 +17,7 @@ public final class GameScene: SKScene {
     private var player: SKNode = SKNode()
     private var backgroundNode: SKSpriteNode?
     private var backgroundDimNode: SKSpriteNode?
+    private var edgeVignetteNode: SKSpriteNode?
     private var scoreLabel = SKLabelNode(text: "Score: 0")
     private var livesLabel = SKLabelNode(text: "Lives: 1")
     private var pauseStateLabel = SKLabelNode(text: "Paused")
@@ -29,6 +30,8 @@ public final class GameScene: SKScene {
     private let rightHUDPlate = SKShapeNode()
     private var sceneSafeAreaInsets: UIEdgeInsets = .zero
     private var playerTargetX: CGFloat = 0
+    private var hitInvulnerabilityRemaining: TimeInterval = 0
+    private var hitFlashRemaining: TimeInterval = 0
 
     private var lastUpdateTime: TimeInterval?
     private var elapsedTime: TimeInterval = 0
@@ -61,6 +64,7 @@ public final class GameScene: SKScene {
         updateSafeAreaInsets()
         configureHUD()
         feedback.prepare()
+        resetPlayerHitRecoveryState()
         resetCoffeePowerUpState()
         state.startRun()
         updateHUD()
@@ -130,6 +134,7 @@ public final class GameScene: SKScene {
         guard dt > 0 else { return }
 
         if case .running = state.phase {
+            updatePlayerHitRecovery(dt: dt)
             updateCoffeeBoost(dt: dt)
             updatePlayerPosition(dt: dt)
             elapsedTime += dt
@@ -162,11 +167,16 @@ public final class GameScene: SKScene {
         layoutBackgroundNode()
 
         let dimNode = SKSpriteNode(color: .black, size: size)
-        dimNode.alpha = 0.10
+        dimNode.alpha = 0.08
         dimNode.zPosition = -50
         dimNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
         addChild(dimNode)
         backgroundDimNode = dimNode
+
+        if let vignetteNode = makeEdgeVignetteNode(sceneSize: size) {
+            addChild(vignetteNode)
+            edgeVignetteNode = vignetteNode
+        }
     }
 
     private func configurePlayer() {
@@ -278,6 +288,7 @@ public final class GameScene: SKScene {
             in: self,
             dt: dt,
             speedMultiplier: speedMultiplier,
+            baseFallSpeed: GameplayTuning.obstacleFallSpeed,
             playerX: player.position.x,
             sceneWidth: size.width,
             obstacleSize: GameplayTuning.obstacleSize,
@@ -297,12 +308,16 @@ public final class GameScene: SKScene {
 
         if hit {
             guard !isCoffeeBoostActive else { return }
+            guard !isPlayerHitInvulnerable else { return }
             CollisionSystem.handlePlayerHit(state: &state)
             let didGameOver: Bool
             if case .gameOver = state.phase {
                 didGameOver = true
             } else {
                 didGameOver = false
+            }
+            if !didGameOver {
+                beginPlayerHitRecovery()
             }
             feedback.playerHit(in: self, didGameOver: didGameOver)
             updateHUD()
@@ -381,6 +396,7 @@ public final class GameScene: SKScene {
 
         backgroundDimNode?.size = size
         backgroundDimNode?.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        refreshEdgeVignetteIfNeeded()
 
         leftHUDPlate.path = CGPath(
             roundedRect: CGRect(x: 0, y: 0, width: 194, height: 84),
@@ -433,6 +449,39 @@ public final class GameScene: SKScene {
 
     private var isCoffeeBoostActive: Bool {
         coffeeSystem.isBoostActive
+    }
+
+    private var isPlayerHitInvulnerable: Bool {
+        hitInvulnerabilityRemaining > 0
+    }
+
+    private func resetPlayerHitRecoveryState() {
+        hitInvulnerabilityRemaining = 0
+        hitFlashRemaining = 0
+        player.alpha = 1
+    }
+
+    private func beginPlayerHitRecovery() {
+        hitInvulnerabilityRemaining = GameplayTuning.playerHitInvulnerabilityDuration
+        hitFlashRemaining = GameplayTuning.playerHitFlashDuration
+    }
+
+    private func updatePlayerHitRecovery(dt: TimeInterval) {
+        guard dt > 0 else { return }
+
+        if hitInvulnerabilityRemaining > 0 {
+            hitInvulnerabilityRemaining = max(0, hitInvulnerabilityRemaining - dt)
+        }
+        if hitFlashRemaining > 0 {
+            hitFlashRemaining = max(0, hitFlashRemaining - dt)
+        }
+
+        if hitFlashRemaining > 0 {
+            let phase = hitFlashRemaining * GameplayTuning.playerHitFlashFrequency * 2 * .pi
+            player.alpha = sin(phase) >= 0 ? 1 : GameplayTuning.playerHitFlashMinAlpha
+        } else {
+            player.alpha = 1
+        }
     }
 
     private func resetCoffeePowerUpState() {
@@ -510,13 +559,62 @@ public final class GameScene: SKScene {
         let dt = currentTime - last
         return min(max(dt, 0), 1.0 / 15.0)
     }
+
+    private func refreshEdgeVignetteIfNeeded() {
+        let center = CGPoint(x: size.width / 2, y: size.height / 2)
+        if edgeVignetteNode?.size != size {
+            edgeVignetteNode?.removeFromParent()
+            edgeVignetteNode = makeEdgeVignetteNode(sceneSize: size)
+            if let edgeVignetteNode {
+                addChild(edgeVignetteNode)
+            }
+        }
+        edgeVignetteNode?.position = center
+    }
+
+    private func makeEdgeVignetteNode(sceneSize: CGSize) -> SKSpriteNode? {
+        #if canImport(UIKit)
+        let rendererFormat = UIGraphicsImageRendererFormat.default()
+        rendererFormat.opaque = false
+        let renderer = UIGraphicsImageRenderer(size: sceneSize, format: rendererFormat)
+        let image = renderer.image { context in
+            let cgContext = context.cgContext
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            let colors = [
+                UIColor.clear.cgColor,
+                UIColor.black.withAlphaComponent(0.35).cgColor
+            ] as CFArray
+            let locations: [CGFloat] = [0.44, 1.0]
+            guard let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: locations) else {
+                return
+            }
+            let center = CGPoint(x: sceneSize.width / 2, y: sceneSize.height / 2)
+            let radius = max(sceneSize.width, sceneSize.height) * 0.72
+            cgContext.drawRadialGradient(
+                gradient,
+                startCenter: center,
+                startRadius: 0,
+                endCenter: center,
+                endRadius: radius,
+                options: [.drawsAfterEndLocation]
+            )
+        }
+        let node = SKSpriteNode(texture: SKTexture(image: image), size: sceneSize)
+        node.name = "edge_vignette"
+        node.zPosition = -45
+        node.position = CGPoint(x: sceneSize.width / 2, y: sceneSize.height / 2)
+        return node
+        #else
+        return nil
+        #endif
+    }
 }
 
 private enum GameplayTuning {
     static let coffeePowerUpSeedSalt: UInt64 = 0xC0FFEE5EED
-    static let playerSize: CGFloat = 52
-    static let obstacleSize: CGFloat = 46
-    static let coffeePowerUpSize: CGFloat = 34
+    static let playerSize: CGFloat = 62
+    static let obstacleSize: CGFloat = 55
+    static let coffeePowerUpSize: CGFloat = 41
     static let playerBaselineY: CGFloat = 78
     static let playerEdgePadding: CGFloat = 8
     static let hudIconSize: CGFloat = 20
@@ -526,7 +624,12 @@ private enum GameplayTuning {
     static let coffeeBoostDuration: TimeInterval = 4
     static let coffeeSpawnIntervalMin: TimeInterval = 10
     static let coffeeSpawnIntervalMax: TimeInterval = 16
-    static let coffeeFallSpeed: CGFloat = 128
+    static let obstacleFallSpeed: CGFloat = 128
+    static let coffeeFallSpeed: CGFloat = 102
+    static let playerHitInvulnerabilityDuration: TimeInterval = 2
+    static let playerHitFlashDuration: TimeInterval = 2
+    static let playerHitFlashFrequency: TimeInterval = 9
+    static let playerHitFlashMinAlpha: CGFloat = 0.25
     static let coffeePowerUpCollisionInset: CGFloat = 0.16
     static let coffeePickupScoreBonus = 25
     static let meetingSlowMultiplier: CGFloat = 0.55

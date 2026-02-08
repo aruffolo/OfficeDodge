@@ -133,7 +133,7 @@ private struct GameSceneContainer: View {
     }
 
     private func makeScene() -> GameScene {
-        let scene = GameScene(size: CGSize(width: 390, height: 844), seed: 0xDEADBEEFCAFEBABE)
+        let scene = GameScene(size: CGSize(width: 390, height: 844), seed: 0xDEADBEEFCAFEBABE, lives: 5)
         scene.scaleMode = .resizeFill
         scene.onGameOver = onGameOver
         return scene
