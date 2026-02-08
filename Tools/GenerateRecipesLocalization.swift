@@ -1,6 +1,6 @@
 #!/usr/bin/env swift
 //
-// Generate language-agnostic and Italian translation JSON files from LiquoreData_All.json
+// Generate language-agnostic and Italian translation JSON files from OfficeDodgeData_All.json
 //
 
 import Foundation
@@ -265,10 +265,10 @@ func writeJSON<T: Encodable>(_ value: T, to path: String) throws {
 }
 
 let root = FileManager.default.currentDirectoryPath
-let legacyPath = "\(root)/Liquore/Jsons/LiquoreData_All.json"
-let baseOutput = "\(root)/Liquore/Jsons/recipes.json"
-let translationsOutputIt = "\(root)/Liquore/Jsons/translations_it.json"
-let glasswarePath = "\(root)/Liquore/Jsons/glassware.data.json"
+let legacyPath = "\(root)/OfficeDodge/Jsons/OfficeDodgeData_All.json"
+let baseOutput = "\(root)/OfficeDodge/Jsons/recipes.json"
+let translationsOutputIt = "\(root)/OfficeDodge/Jsons/translations_it.json"
+let glasswarePath = "\(root)/OfficeDodge/Jsons/glassware.data.json"
 
 do {
     let legacy = try loadLegacyRecipes(from: legacyPath)
