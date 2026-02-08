@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+# Run SwiftFormat before committing to keep style consistent.
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+if ! command -v swiftformat >/dev/null 2>&1; then
+  echo "pre-commit: swiftformat not installed. Install via 'brew install swiftformat'." >&2
+  exit 1
+fi
+
+# Get staged Swift files (Added, Copied, Modified)
+STAGED_SWIFT_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.swift$' || true)
+
+if [ -n "$STAGED_SWIFT_FILES" ]; then
+  echo "🔧 SwiftFormat on staged files:"
+  echo "$STAGED_SWIFT_FILES"
+
+  swiftformat --config .swiftformat $STAGED_SWIFT_FILES
+  # Re-stage only the files that were formatted
+  git add $STAGED_SWIFT_FILES
+fi
+
+### ─────────────────────────────
+### SwiftGen Homebrew CLI
+### ─────────────────────────────
+
+PKG_ROOT="Package"
+SWIFTGEN_CONFIG="$PKG_ROOT/swiftgen.yml"
+GENERATED_DIR="$PKG_ROOT/Sources/Resources/Generated"
+
+if command -v swiftgen >/dev/null 2>&1; then
+
+  if git diff --cached --name-only --diff-filter=ACMR | grep -E \
+    "^Package/(swiftgen\.yml|Sources/Resources/)" \
+    >/dev/null; then
+
+    echo "🔧 Running SwiftGen…"
+    swiftgen config run --config "$SWIFTGEN_CONFIG"
+
+    # Stage generated outputs only
+    git add "$GENERATED_DIR"
+  else
+    echo "✅ SwiftGen inputs unchanged — skipping"
+  fi
+
+else
+  echo "⚠️ SwiftGen not installed — skipping generation"
+fi

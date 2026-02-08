@@ -1,0 +1,122 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  SCHEME  = "Gocce_d_Italia"
+  PROJECT = "Gocce_d_Italia.xcodeproj"
+
+  before_all do
+    # Good defaults even without CI
+    ensure_git_status_clean
+  end
+
+  private_lane :run_tests do |options|
+    scan(
+      scheme: SCHEME,
+      project: PROJECT,
+      clean: true,
+      code_coverage: options[:coverage] || false,
+      result_bundle: true,
+      result_bundle_path: "fastlane/test_output/TestResults.xcresult",
+      output_directory: "fastlane/test_output",
+      output_types: "html,junit",
+      buildlog_path: "fastlane/test_output/logs",
+      disable_concurrent_testing: true
+      # Consider adding a fixed destination if you get flakiness:
+      # destination: "platform=iOS Simulator,name=iPhone 15,OS=latest"
+    )
+  end
+
+  lane :test do
+    run_tests(coverage: false)
+  end
+
+  lane :coverage do
+    run_tests(coverage: true)
+
+    xcov(
+      scheme: SCHEME,
+      xccov_file_direct_path: "fastlane/test_output/TestResults.xcresult",
+      output_directory: "fastlane/coverage",
+      include_targets: [SCHEME]
+    )
+  end
+
+  private_lane :build_archive do |options|
+    # For TestFlight and App Store builds, export_method is typically "app-store"
+    build_app(
+      scheme: SCHEME,
+      project: PROJECT,
+      export_method: options[:export_method] || "app-store"
+    )
+  end
+
+  private_lane :upload_sentry_symbols do
+    dsym_path = lane_context[SharedValues::DSYM_OUTPUT_PATH]
+    sentry_debug_files_upload(
+      org_slug: "aruffolo",
+      project_slug: "apple-ios",
+      include_sources: true,
+      dsym_path: dsym_path
+    )
+  end
+
+  desc "Build + upload a new beta build to TestFlight"
+  lane :beta do
+    increment_build_number(xcodeproj: PROJECT)
+
+    build_archive
+    changelog = changelog_from_git_commits
+
+    upload_to_testflight(
+      changelog: changelog,
+      skip_waiting_for_build_processing: true
+    )
+
+    upload_sentry_symbols
+  end
+
+  desc "Run tests, then upload beta to TestFlight"
+  lane :beta_with_tests do
+    test
+    beta
+  end
+
+  desc "Upload an App Store build (does not submit for review)"
+  lane :appstore do
+    ensure_git_branch(branch: "main") # change if you use "master"
+    increment_build_number(xcodeproj: PROJECT)
+
+    build_archive(export_method: "app-store")
+    upload_to_app_store(
+      skip_metadata: true,
+      skip_screenshots: true,
+      submit_for_review: false
+    )
+
+    upload_sentry_symbols
+  end
+
+  after_all do |lane|
+    puts "✅ Finished lane: #{lane}"
+  end
+
+  error do |lane, exception|
+    puts "💥 Lane failed: #{lane}"
+    puts exception.message
+  end
+end

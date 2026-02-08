@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  printf 'Usage: %s "commit message" "file" ["file" ...]\n' "$(basename "$0")" >&2
+  exit 2
+}
+
+if [ "$#" -lt 2 ]; then
+  usage
+fi
+
+commit_message=$1
+shift
+
+if [[ "$commit_message" != *[![:space:]]* ]]; then
+  printf 'Error: commit message must not be empty\n' >&2
+  exit 1
+fi
+if [ -e "$commit_message" ]; then
+  printf 'Error: first argument looks like a file path ("%s"); provide the commit message first\n' "$commit_message" >&2
+  exit 1
+fi
+
+if [ "$#" -eq 0 ]; then
+  usage
+fi
+
+files=("$@")
+
+for file in "${files[@]}"; do
+  if [ -e "$file" ]; then
+    continue
+  fi
+
+  if git ls-files --error-unmatch -- "$file" >/dev/null 2>&1; then
+    continue
+  fi
+
+  printf 'Error: file not found or tracked: %s\n' "$file" >&2
+  exit 1
+done
+
+git restore --staged :/
+git add -A -- "${files[@]}"
+if git diff --staged --quiet; then
+  printf 'Warning: no staged changes detected for: %s\n' "${files[*]}" >&2
+  exit 1
+fi
+
+git commit -m "$commit_message"
+
+printf 'Committed "%s" with files: %s\n' "$commit_message" "${files[*]}"

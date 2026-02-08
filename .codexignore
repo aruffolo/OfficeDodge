@@ -1,0 +1,94 @@
+# — General macOS noise —
+.DS_Store
+Thumbs.db
+
+# — Xcode build artifacts —
+build/
+Build/
+*.xcarchive
+
+# — Swift Package Manager —
+.swiftpm/
+.packages/
+Package.resolved
+
+# — Carthage / Cocoapods (if present) —
+Carthage/
+Pods/
+
+# — Swift Generated Files —
+*.gyb
+
+# — Logs & Reports —
+*.log
+*.xcactivitylog
+report.xml
+
+# — IDE Workspace / User State —
+*.xccheckout
+*.xcscmblueprint
+*.swp
+*.swo
+*.orig
+*.lok
+*.lock
+*.xcuserstate
+*.xcuserdata/
+
+# — Resource-heavy assets (Codex does not need these) —
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.svg
+*.heic
+*.pdf
+*.mp3
+*.mp4
+*.mov
+*.wav
+*.ttf
+*.otf
+*.xcassets/
+Assets.xcassets/
+
+# — Documentation / Large Markdown files —
+docs/
+Documentation/
+*.md
+
+# — Third-party folders —
+node_modules/
+vendor/
+
+# — App bundles & binaries —
+*.app
+*.ipa
+*.dmg
+*.framework
+*.xcframework
+*.a
+
+# — Secrets / Environment —
+.env
+*.key
+*.pem
+*.p12
+
+# — JSON, YAML, and other large raw data files —
+*.yaml
+*.yml
+*.xml
+*.csv
+*.plist
+
+# — Test output —
+*.profdata
+*.coverage
+*.gcno
+*.gcda
+
+# — Ignore Simulator device data —
+Library/Developer/CoreSimulator/
+

@@ -1,0 +1,21 @@
+strings:
+  inputs:
+    - Sources/Resources/Resources/en.lproj/Localizable.strings
+  outputs:
+    - templateName: structured-swift5
+      output: Sources/Resources/Generated/Strings+Generated.swift
+      params:
+        publicAccess: true
+        bundle: ResourcesBundle.bundle
+        enumName: L10n
+
+xcassets:
+  inputs:
+    - Sources/Resources/Resources/Assets.xcassets
+  outputs:
+    - templatePath: Templates/xcassets-swift5-mainactor.stencil
+      output: Sources/Resources/Generated/Assets+Generated.swift
+      params:
+        publicAccess: true
+        bundle: ResourcesBundle.bundle
+        enumName: Asset

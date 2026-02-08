@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.1
+        run: sudo xcode-select -s /Applications/Xcode_16.1.app
+
+      - name: Install SwiftFormat and SwiftLint
+        run: |
+          brew list swiftformat >/dev/null 2>&1 || brew install swiftformat
+          brew list swiftlint >/dev/null 2>&1 || brew install swiftlint
+
+      - name: Run SwiftFormat
+        run: swiftformat --config .swiftformat .
+
+      - name: Run SwiftLint
+        run: swiftlint --config .swiftlint.yml
+
+      - name: Build and Test
+        run: |
+          xcodebuild \
+            -project "Gocce_d_Italia.xcodeproj" \
+            -scheme "Gocce_d_Italia" \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            build test

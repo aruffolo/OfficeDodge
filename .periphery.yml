@@ -1,0 +1,5 @@
+project: Gocce_d_Italia.xcworkspace
+retain_public: true
+retain_assign_only_properties: true
+schemes:
+- Gocce_d_Italia

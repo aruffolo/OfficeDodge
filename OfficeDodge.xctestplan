@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "A10A519C-34EE-4E5F-96A8-3A061D174E25",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "language" : "en",
+    "performanceAntipatternCheckerEnabled" : true,
+    "region" : "US",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:OfficeDodge.xcodeproj",
+      "identifier" : "B3506E842DE32C4C00AAFC5D",
+      "name" : "OfficeDodge"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Package",
+        "identifier" : "OfficeDodgeCoreTests",
+        "name" : "OfficeDodgeCoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

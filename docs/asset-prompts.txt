@@ -1,0 +1,37 @@
+Office Dodge Asset Prompts
+
+1) Asset: player_avatar
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, friendly office worker avatar, waist-up, expressive face, slightly stressed but funny, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).
+
+2) Asset: obstacle_email
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, incoming email envelope icon, dynamic motion feel, slightly menacing but cartoonish, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).
+
+3) Asset: obstacle_meeting
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, calendar page icon representing urgent meeting invite, bold red alert accent, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).
+
+4) Asset: obstacle_bug
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, cartoon software bug icon, mischievous expression, clean readable shape, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).
+
+5) Asset: obstacle_manager
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, cartoon manager character icon, clipboard and tie, humorous intimidating vibe, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).
+
+6) Asset: obstacle_jira
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, task or ticket icon with checkmark and sticky-note feel, office tooling vibe, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).
+
+7) Asset: background_office
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, subtle open-office background scene with desks and monitors, low visual noise, gameplay-friendly, no focal character, wide composition, PNG, no transparency.
+Size note: 2048x1024 preferred (minimum 1536x768).
+
+8) Asset: hud_lives
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, HUD icon for lives, heart-with-badge style, bold and readable at small size, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).
+
+9) Asset: hud_pause
+Prompt: Playful 2D mobile game art, office-comedy theme, flat vector style with subtle shading, high contrast, clean silhouette, no text, no watermark, polished iOS game asset, HUD pause button icon, rounded square with pause bars, clean and minimal, centered composition, transparent background, square PNG.
+Size note: 1024x1024 preferred (minimum 512x512).

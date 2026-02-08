@@ -1,0 +1,23 @@
+//
+//  ReleaseConfig.xcconfig
+//  Gocce d'Italia
+//
+//  Created by Antonio Ruffolo on 12/11/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+MOCK_ENABLED = NO
+LOGGING_ENABLED = YES
+DEVELOP_MODE = NO
+PAYWALL_ACTIVE = NO
+TESTING = NO
+RECIPE_VOLUME_MIN_LITERS = 0.5
+RECIPE_VOLUME_MAX_LITERS = 3.0
+PRO_LIFETIME_PRODUCT_ID = pirone.ricette.unlimited
+PRO_SUBSCRIPTION_PRODUCT_ID =
+SENTRY_DNS = https:/$()/1cf33f1849a42679c6eb50d20d7f1954@o4510674575491072.ingest.de.sentry.io/4510674578309200
+
+PRODUCT_NAME = OfficeDodge
+INFOPLIST_KEY_CFBundleDisplayName = Office Dodge
