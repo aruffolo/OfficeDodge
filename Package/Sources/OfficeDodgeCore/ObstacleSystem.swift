@@ -26,9 +26,11 @@ enum ObstacleSystem {
         sceneWidth: CGFloat,
         obstacleSize: CGFloat,
         managerHomingSpeed: CGFloat,
+        hudProtectedHeight: CGFloat,
         obstacleTypeUserDataKey: String
     ) {
         let speed = CGFloat(160 * speedMultiplier)
+        let hudBoundaryY = scene.size.height - hudProtectedHeight
         scene.enumerateChildNodes(withName: "obstacle") { node, _ in
             if obstacleType(for: node, obstacleTypeUserDataKey: obstacleTypeUserDataKey) == .manager {
                 let maxStep = managerHomingSpeed * CGFloat(dt)
@@ -39,6 +41,7 @@ enum ObstacleSystem {
                 node.position.x = min(max(node.position.x, half), sceneWidth - half)
             }
             node.position.y -= speed * CGFloat(dt)
+            node.alpha = node.position.y > hudBoundaryY ? 0 : 1
             if node.position.y < -60 {
                 node.removeFromParent()
             }

@@ -1,4 +1,7 @@
 import SpriteKit
+#if canImport(UIKit)
+import UIKit
+#endif
 
 public final class GameScene: SKScene {
     public var onGameOver: ((Int) -> Void)?
@@ -13,13 +16,14 @@ public final class GameScene: SKScene {
 
     private var player: SKNode = SKNode()
     private var backgroundNode: SKSpriteNode?
+    private var backgroundDimNode: SKSpriteNode?
     private var scoreLabel = SKLabelNode(text: "Score: 0")
     private var livesLabel = SKLabelNode(text: "Lives: 1")
-    private var pauseButtonLabel = SKLabelNode(text: "Pause")
     private var pauseStateLabel = SKLabelNode(text: "Paused")
     private var coffeeStatusLabel = SKLabelNode(text: "")
     private var livesIconNode: SKNode?
     private var pauseIconNode: SKNode?
+    private var pauseTouchTargetNode: SKSpriteNode?
     private let leftHUDPlate = SKShapeNode()
     private let rightHUDPlate = SKShapeNode()
     private var sceneSafeAreaInsets: UIEdgeInsets = .zero
@@ -73,7 +77,7 @@ public final class GameScene: SKScene {
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
 
-        if pauseButtonLabel.contains(location) {
+        if pauseTouchTargetNode?.contains(location) == true {
             feedback.buttonTap(in: self)
             togglePauseState()
             return
@@ -156,6 +160,13 @@ public final class GameScene: SKScene {
         node.position = CGPoint(x: size.width / 2, y: size.height / 2)
         addChild(node)
         backgroundNode = node
+
+        let dimNode = SKSpriteNode(color: .black, size: size)
+        dimNode.alpha = 0.40
+        dimNode.zPosition = -50
+        dimNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        addChild(dimNode)
+        backgroundDimNode = dimNode
     }
 
     private func configurePlayer() {
@@ -168,17 +179,17 @@ public final class GameScene: SKScene {
     }
 
     private func configureHUD() {
-        leftHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.45)
+        leftHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.58)
         leftHUDPlate.strokeColor = .clear
         leftHUDPlate.zPosition = 18
         addChild(leftHUDPlate)
 
-        rightHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.45)
+        rightHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.58)
         rightHUDPlate.strokeColor = .clear
         rightHUDPlate.zPosition = 18
         addChild(rightHUDPlate)
 
-        scoreLabel.fontSize = 18
+        scoreLabel.fontSize = 21
         scoreLabel.fontName = "Menlo-Bold"
         scoreLabel.fontColor = .white
         scoreLabel.horizontalAlignmentMode = .left
@@ -191,7 +202,7 @@ public final class GameScene: SKScene {
         addChild(livesIcon)
         livesIconNode = livesIcon
 
-        livesLabel.fontSize = 18
+        livesLabel.fontSize = 21
         livesLabel.fontName = "Menlo-Bold"
         livesLabel.fontColor = .white
         livesLabel.horizontalAlignmentMode = .left
@@ -201,17 +212,21 @@ public final class GameScene: SKScene {
 
         let pauseIcon = SpriteNodeFactory.makeHUDPauseNode(size: GameplayTuning.hudIconSize)
         pauseIcon.zPosition = 20
+        #if canImport(UIKit)
+        pauseIcon.isAccessibilityElement = false
+        #endif
         addChild(pauseIcon)
         pauseIconNode = pauseIcon
 
-        pauseButtonLabel.fontSize = 18
-        pauseButtonLabel.fontName = "Menlo-Bold"
-        pauseButtonLabel.fontColor = .white
-        pauseButtonLabel.horizontalAlignmentMode = .right
-        pauseButtonLabel.verticalAlignmentMode = .top
-        pauseButtonLabel.yScale = 2.6
-        pauseButtonLabel.zPosition = 20
-        addChild(pauseButtonLabel)
+        let pauseTouchTarget = SKSpriteNode(color: .clear, size: CGSize(width: 94, height: 52))
+        pauseTouchTarget.zPosition = 19
+        #if canImport(UIKit)
+        pauseTouchTarget.isAccessibilityElement = true
+        pauseTouchTarget.accessibilityLabel = "Pause"
+        pauseTouchTarget.accessibilityTraits = .button
+        #endif
+        addChild(pauseTouchTarget)
+        pauseTouchTargetNode = pauseTouchTarget
 
         pauseStateLabel.fontSize = 28
         pauseStateLabel.fontName = "Menlo-Bold"
@@ -222,7 +237,7 @@ public final class GameScene: SKScene {
         pauseStateLabel.alpha = 0
         addChild(pauseStateLabel)
 
-        coffeeStatusLabel.fontSize = 14
+        coffeeStatusLabel.fontSize = 17
         coffeeStatusLabel.fontName = "Menlo-Bold"
         coffeeStatusLabel.fontColor = .white
         coffeeStatusLabel.horizontalAlignmentMode = .center
@@ -255,6 +270,7 @@ public final class GameScene: SKScene {
             sceneWidth: size.width,
             obstacleSize: GameplayTuning.obstacleSize,
             managerHomingSpeed: GameplayTuning.managerHomingSpeed,
+            hudProtectedHeight: GameplayTuning.hudProtectedHeight,
             obstacleTypeUserDataKey: GameplayTuning.obstacleTypeUserDataKey
         )
     }
@@ -309,44 +325,51 @@ public final class GameScene: SKScene {
         }
         switch state.phase {
         case .paused:
-            pauseButtonLabel.text = "Resume"
             pauseStateLabel.alpha = 1
             pauseIconNode?.alpha = 0.75
+            #if canImport(UIKit)
+            pauseTouchTargetNode?.accessibilityLabel = "Resume"
+            #endif
         default:
-            pauseButtonLabel.text = "Pause"
             pauseStateLabel.alpha = 0
             pauseIconNode?.alpha = 1
+            #if canImport(UIKit)
+            pauseTouchTargetNode?.accessibilityLabel = "Pause"
+            #endif
         }
         layoutHUD()
     }
 
     private func layoutHUD() {
-        let topInset = max(96, sceneSafeAreaInsets.top + 34)
+        let topInset = max(138, sceneSafeAreaInsets.top + 68)
         let leftInset = max(16, sceneSafeAreaInsets.left + 12)
         let rightInset = max(16, sceneSafeAreaInsets.right + 12)
 
+        backgroundDimNode?.size = size
+        backgroundDimNode?.position = CGPoint(x: size.width / 2, y: size.height / 2)
+
         leftHUDPlate.path = CGPath(
-            roundedRect: CGRect(x: 0, y: 0, width: 170, height: 72),
-            cornerWidth: 12,
-            cornerHeight: 12,
+            roundedRect: CGRect(x: 0, y: 0, width: 196, height: 84),
+            cornerWidth: 14,
+            cornerHeight: 14,
             transform: nil
         )
-        leftHUDPlate.position = CGPoint(x: leftInset - 8, y: size.height - topInset - 44)
+        leftHUDPlate.position = CGPoint(x: leftInset - 10, y: size.height - topInset - 58)
 
         rightHUDPlate.path = CGPath(
-            roundedRect: CGRect(x: 0, y: 0, width: 120, height: 64),
-            cornerWidth: 12,
-            cornerHeight: 12,
+            roundedRect: CGRect(x: 0, y: 0, width: 116, height: 80),
+            cornerWidth: 14,
+            cornerHeight: 14,
             transform: nil
         )
-        rightHUDPlate.position = CGPoint(x: size.width - rightInset - 110, y: size.height - topInset - 36)
+        rightHUDPlate.position = CGPoint(x: size.width - rightInset - 108, y: size.height - topInset - 54)
 
         scoreLabel.position = CGPoint(x: leftInset, y: size.height - topInset)
-        livesIconNode?.position = CGPoint(x: leftInset + 10, y: size.height - (topInset + 36))
-        livesLabel.position = CGPoint(x: leftInset + 26, y: size.height - (topInset + 26))
+        livesIconNode?.position = CGPoint(x: leftInset + 12, y: size.height - (topInset + 46))
+        livesLabel.position = CGPoint(x: leftInset + 30, y: size.height - (topInset + 30))
         coffeeStatusLabel.position = CGPoint(x: size.width / 2, y: size.height - topInset)
-        pauseButtonLabel.position = CGPoint(x: size.width - rightInset, y: size.height - topInset)
-        pauseIconNode?.position = CGPoint(x: size.width - (rightInset + 76), y: size.height - (topInset + 12))
+        pauseTouchTargetNode?.position = CGPoint(x: size.width - rightInset - 48, y: size.height - topInset - 28)
+        pauseIconNode?.position = CGPoint(x: size.width - (rightInset + 48), y: size.height - (topInset + 22))
         pauseStateLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
     }
 
@@ -406,8 +429,10 @@ public final class GameScene: SKScene {
 
     private func advanceCoffeePowerUps(dt: TimeInterval) {
         var removed = false
+        let hudBoundaryY = size.height - GameplayTuning.hudProtectedHeight
         enumerateChildNodes(withName: "powerup_coffee") { node, _ in
             node.position.y -= GameplayTuning.coffeeFallSpeed * CGFloat(dt)
+            node.alpha = node.position.y > hudBoundaryY ? 0 : 1
             if node.position.y < -60 {
                 node.removeFromParent()
                 removed = true
@@ -459,7 +484,8 @@ private enum GameplayTuning {
     static let coffeePowerUpSize: CGFloat = 34
     static let playerBaselineY: CGFloat = 78
     static let playerEdgePadding: CGFloat = 8
-    static let hudIconSize: CGFloat = 20
+    static let hudIconSize: CGFloat = 28
+    static let hudProtectedHeight: CGFloat = 220
     static let playerTrackingResponsiveness: CGFloat = 18
     static let coffeeSpeedMultiplier: CGFloat = 1.6
     static let coffeeBoostDuration: TimeInterval = 4
