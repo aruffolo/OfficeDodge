@@ -1,0 +1,11 @@
+//
+//  LocalSigning.xcconfig
+//  OfficeDodge
+//
+//  Copy this file to LocalSigning.xcconfig and set your local values.
+//  This file is gitignored and should never be committed.
+//
+
+APP_BUNDLE_ID = com.yourname.officedodge
+APP_DEVELOPMENT_TEAM = ABCDE12345
+APP_PROVISIONING_PROFILE_SPECIFIER =
