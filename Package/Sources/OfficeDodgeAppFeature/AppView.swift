@@ -25,14 +25,17 @@ public struct AppView: View {
                     screen = .playing
                 }
                 .buttonStyle(.borderedProminent)
+                .minimumTapTarget()
                 Button("High Scores") {
                     screen = .highScores
                 }
                 .buttonStyle(.bordered)
+                .minimumTapTarget()
                 Button("Settings") {
                     screen = .settings
                 }
                 .buttonStyle(.bordered)
+                .minimumTapTarget()
             }
             .padding()
         case .playing:
@@ -55,10 +58,12 @@ public struct AppView: View {
                     screen = .playing
                 }
                 .buttonStyle(.borderedProminent)
+                .minimumTapTarget()
                 Button("Main Menu") {
                     screen = .menu
                 }
                 .buttonStyle(.bordered)
+                .minimumTapTarget()
             }
             .padding()
         case .highScores:
@@ -87,10 +92,12 @@ public struct AppView: View {
                     highScores = []
                 }
                 .buttonStyle(.bordered)
+                .minimumTapTarget()
                 Button("Back") {
                     screen = .menu
                 }
                 .buttonStyle(.borderedProminent)
+                .minimumTapTarget()
             }
             .padding()
         case .settings:
@@ -103,6 +110,7 @@ public struct AppView: View {
                     screen = .menu
                 }
                 .buttonStyle(.borderedProminent)
+                .minimumTapTarget()
             }
             .padding()
         }
@@ -136,5 +144,13 @@ private struct GameSceneContainer: View {
         scene.scaleMode = .resizeFill
         scene.onGameOver = onGameOver
         return scene
+    }
+}
+
+private extension View {
+    func minimumTapTarget() -> some View {
+        self
+            .controlSize(.large)
+            .frame(minHeight: 44)
     }
 }

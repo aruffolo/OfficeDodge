@@ -1,0 +1,163 @@
+[
+  {
+    "AXFrame" : "{{0, 0}, {393, 852}}",
+    "AXUniqueId" : null,
+    "frame" : {
+      "y" : 0,
+      "x" : 0,
+      "width" : 393,
+      "height" : 852
+    },
+    "role_description" : "application",
+    "AXLabel" : "Office Dodge",
+    "content_required" : false,
+    "type" : "Application",
+    "title" : null,
+    "help" : null,
+    "custom_actions" : [
+
+    ],
+    "AXValue" : null,
+    "enabled" : true,
+    "role" : "AXApplication",
+    "children" : [
+      {
+        "AXFrame" : "{{91.833333333333343, 324.5}, {209.33333333333329, 40.666666666666686}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 324.5,
+          "x" : 91.833333333333343,
+          "width" : 209.33333333333329,
+          "height" : 40.666666666666686
+        },
+        "role_description" : "text",
+        "AXLabel" : "Office Dodge",
+        "content_required" : false,
+        "type" : "StaticText",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXStaticText",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 6570
+      },
+      {
+        "AXFrame" : "{{83, 381.16666666666669}, {227, 20.333333333333314}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 381.16666666666669,
+          "x" : 83,
+          "width" : 227,
+          "height" : 20.333333333333314
+        },
+        "role_description" : "text",
+        "AXLabel" : "Dodge incoming office chaos.",
+        "content_required" : false,
+        "type" : "StaticText",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXStaticText",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 6570
+      },
+      {
+        "AXFrame" : "{{166, 417.66666666666663}, {61.333333333333314, 34.333333333333314}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 417.66666666666663,
+          "x" : 166,
+          "width" : 61.333333333333314,
+          "height" : 34.333333333333314
+        },
+        "role_description" : "button",
+        "AXLabel" : "Start",
+        "content_required" : false,
+        "type" : "Button",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXButton",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 6570
+      },
+      {
+        "AXFrame" : "{{138.33333333333331, 468}, {116.66666666666666, 34.333333333333314}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 468,
+          "x" : 138.33333333333331,
+          "width" : 116.66666666666666,
+          "height" : 34.333333333333314
+        },
+        "role_description" : "button",
+        "AXLabel" : "High Scores",
+        "content_required" : false,
+        "type" : "Button",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXButton",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 6570
+      },
+      {
+        "AXFrame" : "{{153, 518}, {87, 34.666666666666629}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 518,
+          "x" : 153,
+          "width" : 87,
+          "height" : 34.666666666666629
+        },
+        "role_description" : "button",
+        "AXLabel" : "Settings",
+        "content_required" : false,
+        "type" : "Button",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXButton",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 6570
+      }
+    ],
+    "subrole" : null,
+    "pid" : 6570
+  }
+]
