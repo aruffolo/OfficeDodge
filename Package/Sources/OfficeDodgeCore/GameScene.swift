@@ -20,6 +20,9 @@ public final class GameScene: SKScene {
     private var coffeeStatusLabel = SKLabelNode(text: "")
     private var livesIconNode: SKNode?
     private var pauseIconNode: SKNode?
+    private let leftHUDPlate = SKShapeNode()
+    private let rightHUDPlate = SKShapeNode()
+    private var sceneSafeAreaInsets: UIEdgeInsets = .zero
     private var playerTargetX: CGFloat = 0
 
     private var lastUpdateTime: TimeInterval?
@@ -50,6 +53,7 @@ public final class GameScene: SKScene {
     public override func didMove(to view: SKView) {
         configureBackground()
         configurePlayer()
+        updateSafeAreaInsets()
         configureHUD()
         feedback.prepare()
         resetCoffeePowerUpState()
@@ -61,6 +65,7 @@ public final class GameScene: SKScene {
         super.didChangeSize(oldSize)
         backgroundNode?.size = size
         backgroundNode?.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        updateSafeAreaInsets()
         layoutHUD()
     }
 
@@ -163,8 +168,19 @@ public final class GameScene: SKScene {
     }
 
     private func configureHUD() {
+        leftHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.45)
+        leftHUDPlate.strokeColor = .clear
+        leftHUDPlate.zPosition = 18
+        addChild(leftHUDPlate)
+
+        rightHUDPlate.fillColor = UIColor.black.withAlphaComponent(0.45)
+        rightHUDPlate.strokeColor = .clear
+        rightHUDPlate.zPosition = 18
+        addChild(rightHUDPlate)
+
         scoreLabel.fontSize = 18
         scoreLabel.fontName = "Menlo-Bold"
+        scoreLabel.fontColor = .white
         scoreLabel.horizontalAlignmentMode = .left
         scoreLabel.verticalAlignmentMode = .top
         scoreLabel.zPosition = 20
@@ -177,6 +193,7 @@ public final class GameScene: SKScene {
 
         livesLabel.fontSize = 18
         livesLabel.fontName = "Menlo-Bold"
+        livesLabel.fontColor = .white
         livesLabel.horizontalAlignmentMode = .left
         livesLabel.verticalAlignmentMode = .top
         livesLabel.zPosition = 20
@@ -189,13 +206,16 @@ public final class GameScene: SKScene {
 
         pauseButtonLabel.fontSize = 18
         pauseButtonLabel.fontName = "Menlo-Bold"
+        pauseButtonLabel.fontColor = .white
         pauseButtonLabel.horizontalAlignmentMode = .right
         pauseButtonLabel.verticalAlignmentMode = .top
+        pauseButtonLabel.yScale = 2.6
         pauseButtonLabel.zPosition = 20
         addChild(pauseButtonLabel)
 
         pauseStateLabel.fontSize = 28
         pauseStateLabel.fontName = "Menlo-Bold"
+        pauseStateLabel.fontColor = .white
         pauseStateLabel.horizontalAlignmentMode = .center
         pauseStateLabel.verticalAlignmentMode = .center
         pauseStateLabel.zPosition = 30
@@ -204,6 +224,7 @@ public final class GameScene: SKScene {
 
         coffeeStatusLabel.fontSize = 14
         coffeeStatusLabel.fontName = "Menlo-Bold"
+        coffeeStatusLabel.fontColor = .white
         coffeeStatusLabel.horizontalAlignmentMode = .center
         coffeeStatusLabel.verticalAlignmentMode = .top
         coffeeStatusLabel.zPosition = 20
@@ -296,16 +317,41 @@ public final class GameScene: SKScene {
             pauseStateLabel.alpha = 0
             pauseIconNode?.alpha = 1
         }
+        layoutHUD()
     }
 
     private func layoutHUD() {
-        scoreLabel.position = CGPoint(x: 16, y: size.height - 16)
-        livesIconNode?.position = CGPoint(x: 26, y: size.height - 52)
-        livesLabel.position = CGPoint(x: 42, y: size.height - 42)
-        coffeeStatusLabel.position = CGPoint(x: size.width / 2, y: size.height - 16)
-        pauseButtonLabel.position = CGPoint(x: size.width - 16, y: size.height - 16)
-        pauseIconNode?.position = CGPoint(x: size.width - 92, y: size.height - 28)
+        let topInset = max(96, sceneSafeAreaInsets.top + 34)
+        let leftInset = max(16, sceneSafeAreaInsets.left + 12)
+        let rightInset = max(16, sceneSafeAreaInsets.right + 12)
+
+        leftHUDPlate.path = CGPath(
+            roundedRect: CGRect(x: 0, y: 0, width: 170, height: 72),
+            cornerWidth: 12,
+            cornerHeight: 12,
+            transform: nil
+        )
+        leftHUDPlate.position = CGPoint(x: leftInset - 8, y: size.height - topInset - 44)
+
+        rightHUDPlate.path = CGPath(
+            roundedRect: CGRect(x: 0, y: 0, width: 120, height: 64),
+            cornerWidth: 12,
+            cornerHeight: 12,
+            transform: nil
+        )
+        rightHUDPlate.position = CGPoint(x: size.width - rightInset - 110, y: size.height - topInset - 36)
+
+        scoreLabel.position = CGPoint(x: leftInset, y: size.height - topInset)
+        livesIconNode?.position = CGPoint(x: leftInset + 10, y: size.height - (topInset + 36))
+        livesLabel.position = CGPoint(x: leftInset + 26, y: size.height - (topInset + 26))
+        coffeeStatusLabel.position = CGPoint(x: size.width / 2, y: size.height - topInset)
+        pauseButtonLabel.position = CGPoint(x: size.width - rightInset, y: size.height - topInset)
+        pauseIconNode?.position = CGPoint(x: size.width - (rightInset + 76), y: size.height - (topInset + 12))
         pauseStateLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
+    }
+
+    private func updateSafeAreaInsets() {
+        sceneSafeAreaInsets = view?.safeAreaInsets ?? .zero
     }
 
     private func updatePlayerPosition(dt: TimeInterval) {

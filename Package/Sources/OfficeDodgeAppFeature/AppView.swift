@@ -130,13 +130,6 @@ private struct GameSceneContainer: View {
 
     var body: some View {
         SpriteView(scene: makeScene())
-            .overlay(alignment: .topLeading) {
-                Text("Office Dodge")
-                    .font(.headline)
-                    .padding(8)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
-                    .padding()
-            }
     }
 
     private func makeScene() -> GameScene {

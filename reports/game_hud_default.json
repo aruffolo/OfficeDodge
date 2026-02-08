@@ -1,0 +1,109 @@
+[
+  {
+    "AXFrame" : "{{0, 0}, {393, 852}}",
+    "AXUniqueId" : null,
+    "frame" : {
+      "y" : 0,
+      "x" : 0,
+      "width" : 393,
+      "height" : 852
+    },
+    "role_description" : "application",
+    "AXLabel" : "Office Dodge",
+    "content_required" : false,
+    "type" : "Application",
+    "title" : null,
+    "help" : null,
+    "custom_actions" : [
+
+    ],
+    "AXValue" : null,
+    "enabled" : true,
+    "role" : "AXApplication",
+    "children" : [
+      {
+        "AXFrame" : "{{322, 95.999969482421875}, {55, 44.200042724609375}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 95.999969482421875,
+          "x" : 322,
+          "width" : 55,
+          "height" : 44.200042724609375
+        },
+        "role_description" : "",
+        "AXLabel" : "Pause",
+        "content_required" : false,
+        "type" : "GenericElement",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXGenericElement",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 12418
+      },
+      {
+        "AXFrame" : "{{42.000003814697266, 121.99998474121094}, {86.999996185302734, 17.999984741210938}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 121.99998474121094,
+          "x" : 42.000003814697266,
+          "width" : 86.999996185302734,
+          "height" : 17.999984741210938
+        },
+        "role_description" : "",
+        "AXLabel" : "Lives: 1",
+        "content_required" : false,
+        "type" : "GenericElement",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXGenericElement",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 12418
+      },
+      {
+        "AXFrame" : "{{16.000003814697266, 95.999969482421875}, {86.999996185302734, 17.000022888183594}}",
+        "AXUniqueId" : null,
+        "frame" : {
+          "y" : 95.999969482421875,
+          "x" : 16.000003814697266,
+          "width" : 86.999996185302734,
+          "height" : 17.000022888183594
+        },
+        "role_description" : "",
+        "AXLabel" : "Score: 0",
+        "content_required" : false,
+        "type" : "GenericElement",
+        "title" : null,
+        "help" : null,
+        "custom_actions" : [
+
+        ],
+        "AXValue" : null,
+        "enabled" : true,
+        "role" : "AXGenericElement",
+        "children" : [
+
+        ],
+        "subrole" : null,
+        "pid" : 12418
+      }
+    ],
+    "subrole" : null,
+    "pid" : 12418
+  }
+]
