@@ -167,16 +167,14 @@ public final class GameScene: SKScene {
         layoutBackgroundNode()
 
         let dimNode = SKSpriteNode(color: .black, size: size)
-        dimNode.alpha = 0.08
+        dimNode.alpha = 0.01
         dimNode.zPosition = -50
         dimNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
         addChild(dimNode)
         backgroundDimNode = dimNode
 
-        if let vignetteNode = makeEdgeVignetteNode(sceneSize: size) {
-            addChild(vignetteNode)
-            edgeVignetteNode = vignetteNode
-        }
+        edgeVignetteNode?.removeFromParent()
+        edgeVignetteNode = nil
     }
 
     private func configurePlayer() {
@@ -308,16 +306,12 @@ public final class GameScene: SKScene {
 
         if hit {
             guard !isCoffeeBoostActive else { return }
-            guard !isPlayerHitInvulnerable else { return }
             CollisionSystem.handlePlayerHit(state: &state)
             let didGameOver: Bool
             if case .gameOver = state.phase {
                 didGameOver = true
             } else {
                 didGameOver = false
-            }
-            if !didGameOver {
-                beginPlayerHitRecovery()
             }
             feedback.playerHit(in: self, didGameOver: didGameOver)
             updateHUD()
