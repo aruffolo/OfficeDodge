@@ -5,7 +5,7 @@ public struct AppLogger: Sendable {
     private let logger: Logger
 
     public init(category: String) {
-        logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.aruffolo.officedodge", category: category)
+        logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.officedodge.app", category: category)
     }
 
     public static let app = AppLogger(category: "app")

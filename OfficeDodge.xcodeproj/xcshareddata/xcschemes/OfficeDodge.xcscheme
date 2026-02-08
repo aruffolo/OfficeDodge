@@ -56,7 +56,7 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <StoreKitConfigurationFileReference
-         identifier = "../Store/LiquoriArtigianali.storekit">
+         identifier = "../Store/OfficeDodge.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

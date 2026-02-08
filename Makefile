@@ -4,7 +4,7 @@ ROOT := $(CURDIR)
 WORKSPACE := $(ROOT)/OfficeDodge.xcworkspace
 SCHEME := OfficeDodge
 DERIVED_DATA_PATH := $(ROOT)/.build/DerivedData
-APP_BUNDLE_ID := com.aruffolo.officedodge
+APP_BUNDLE_ID := com.officedodge.app
 SIMULATOR ?= iPhone 16
 
 SHELL := /bin/bash

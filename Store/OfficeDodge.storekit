@@ -21,17 +21,17 @@
       "localizations" : [
         {
           "description" : "Unlock all the recipes and premium features",
-          "displayName" : "Liquori Riserva Unlimited",
+          "displayName" : "Office Dodge Unlimited",
           "locale" : "en_US"
         },
         {
           "description" : "Sblocca tutte le ricette e le features premium ",
-          "displayName" : "Liquori Riserva Unlimited",
+          "displayName" : "Office Dodge Unlimited",
           "locale" : "it"
         }
       ],
-      "productID" : "pirone.ricette.unlimited",
-      "referenceName" : "RicetteUnlimited",
+      "productID" : "com.officedodge.pro.unlimited",
+      "referenceName" : "OfficeDodgeUnlimited",
       "type" : "NonConsumable"
     }
   ],
@@ -40,7 +40,7 @@
     "_askToBuyEnabled" : false,
     "_billingGracePeriodEnabled" : false,
     "_billingIssuesEnabled" : false,
-    "_developerTeamID" : "5XNBAJ3G32",
+    "_developerTeamID" : "",
     "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
     "_lastSynchronizedDate" : 791596358.70884097,

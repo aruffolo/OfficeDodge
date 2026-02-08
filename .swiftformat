@@ -1,4 +1,4 @@
---exclude .build, Carthage, Pods, DerivedData, OfficeDodge.xcodeproj/**, Liquore/Resources/R.generated.swift
+--exclude .build, Carthage, Pods, DerivedData, OfficeDodge.xcodeproj/**
 
 --swiftversion 5.0
 --self insert
