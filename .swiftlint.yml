@@ -27,7 +27,7 @@ excluded:
   - Carthage
   - Pods
   - DerivedData
-  - Gocce d'Italia.xcodeproj
+  - OfficeDodge.xcodeproj
   - Package/Sources/SharedLocalization/Utils/R.swift
   - Package/Sources/SharedLocalization/Localization/L.swift
   - Package/Tests

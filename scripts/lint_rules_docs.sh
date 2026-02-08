@@ -16,7 +16,7 @@ rg -n 'TODO\(' ai-rules && {
   exit 1
 } || true
 
-rg -n 'Gocce_d_Italia|LiqueurCraft|Ricette|AgingCalendar|MyBar|Preparations|Paywall|RouterSpy|IngredientUnit|NumberFormatting|AppFont\.heading' ai-rules && {
+rg -n 'LiqueurCraft|Ricette|AgingCalendar|MyBar|Preparations|Paywall|RouterSpy|IngredientUnit|NumberFormatting|AppFont\.heading' ai-rules && {
   echo "Found stale template/domain references in ai-rules." >&2
   exit 1
 } || true

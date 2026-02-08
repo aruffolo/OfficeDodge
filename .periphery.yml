@@ -1,5 +1,5 @@
-project: Gocce_d_Italia.xcworkspace
+project: OfficeDodge.xcworkspace
 retain_public: true
 retain_assign_only_properties: true
 schemes:
-- Gocce_d_Italia
+- OfficeDodge

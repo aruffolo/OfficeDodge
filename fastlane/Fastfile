@@ -16,8 +16,8 @@
 default_platform(:ios)
 
 platform :ios do
-  SCHEME  = "Gocce_d_Italia"
-  PROJECT = "Gocce_d_Italia.xcodeproj"
+  SCHEME  = "OfficeDodge"
+  PROJECT = "OfficeDodge.xcodeproj"
 
   before_all do
     # Good defaults even without CI
