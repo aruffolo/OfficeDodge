@@ -8,18 +8,6 @@
 	<string>$(LOGGING_ENABLED)</string>
 	<key>MockEnabled</key>
 	<string>$(MOCK_ENABLED)</string>
-	<key>PaywallActive</key>
-	<string>$(PAYWALL_ACTIVE)</string>
-	<key>ProLifetimeProductId</key>
-	<string>$(PRO_LIFETIME_PRODUCT_ID)</string>
-	<key>ProSubscriptionProductId</key>
-	<string>$(PRO_SUBSCRIPTION_PRODUCT_ID)</string>
-	<key>RecipeVolumeMaxLiters</key>
-	<string>$(RECIPE_VOLUME_MAX_LITERS)</string>
-	<key>RecipeVolumeMinLiters</key>
-	<string>$(RECIPE_VOLUME_MIN_LITERS)</string>
-	<key>SentryDns</key>
-	<string>$(SENTRY_DNS)</string>
 	<key>Testing</key>
 	<string>$(TESTING)</string>
 	<key>UIAppFonts</key>
