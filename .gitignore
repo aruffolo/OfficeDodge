@@ -51,5 +51,10 @@ OfficeDodge/Configurations/LocalSigning.xcconfig
 
 # Private AI configuration
 /AGENTS.md
+/ModuleRules.md
 /ai-rules/
 /ai-docs/
+/ai-scripts/
+/docs/slash-commands/
+/hooks/
+/tools.md
