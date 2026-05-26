@@ -34,3 +34,4 @@ You play an overloaded office worker. Move left and right to dodge incoming offi
 - Build: `make build`
 - Test: `make test`
 - Run on simulator: `make run`
+- Agent template check: `ai-scripts/validate-template`
